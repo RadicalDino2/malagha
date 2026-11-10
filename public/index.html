@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Belated Birthday, Malaghe</title>
+  <meta name="description" content="A belated birthday wish, and an apology, for Malagha." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="art.css" />
+  <link rel="stylesheet" href="extras.css" />
+</head>
+<body>
+  <!-- ============ CINEMATIC INTRO ============ -->
+  <div class="intro" id="intro">
+    <button class="intro-skip" id="introSkip" type="button">skip</button>
+    <p class="intro-line" id="introLine" aria-live="polite"></p>
+    <h1 class="intro-name" id="introName" aria-hidden="true"></h1>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"><i></i></div>
+
+  <button class="audio-toggle" id="audioToggle" type="button"
+          aria-pressed="false" aria-label="Play music">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>
+    </svg>
+  </button>
+
+  <!-- heavenly background -->
+  <div class="heaven"><i></i><i></i><i></i><i></i></div>
+  <div class="rays" aria-hidden="true"></div>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="feathers" id="feathers" aria-hidden="true"></div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero reveal">
+    <p class="chip">✧ a little late, never forgotten ✧</p>
+
+    <div class="halo-name">
+      <div class="halo" aria-hidden="true"></div>
+
+      <!-- wings: gold at the shoulder, dissolving into deep violet -->
+      <svg class="wings" viewBox="0 0 900 320" aria-hidden="true">
+        <defs>
+          <linearGradient id="fg" x1=".5" y1="0" x2=".12" y2="1">
+            <stop offset="0"   stop-color="#fdf4e0" stop-opacity=".95"/>
+            <stop offset=".30" stop-color="#e3c389" stop-opacity=".82"/>
+            <stop offset=".66" stop-color="#8f6fcb" stop-opacity=".62"/>
+            <stop offset="1"   stop-color="#4a2c79" stop-opacity=".45"/>
+          </linearGradient>
+          <linearGradient id="fg2" x1=".5" y1="0" x2=".12" y2="1">
+            <stop offset="0"   stop-color="#e3c389" stop-opacity=".40"/>
+            <stop offset=".55" stop-color="#7d5cb8" stop-opacity=".34"/>
+            <stop offset="1"   stop-color="#3d2466" stop-opacity=".22"/>
+          </linearGradient>
+        </defs>
+
+        <!-- a second, larger pair set further back -->
+        <g class="wing left"  fill="url(#fg2)" transform="translate(450,160) scale(1.26) translate(-450,-160)">
+          <path d="M440 150 C360 120 300 95 250 60 C290 120 330 150 380 170 C320 165 270 150 215 120 C255 180 305 205 365 215 C310 220 265 212 220 192 C265 245 320 262 380 258 C345 272 310 276 275 272 C320 300 385 300 430 280 Z"/>
+        </g>
+        <g class="wing right" fill="url(#fg2)" transform="translate(450,160) scale(1.26) translate(-450,-160)">
+          <path d="M460 150 C540 120 600 95 650 60 C610 120 570 150 520 170 C580 165 630 150 685 120 C645 180 595 205 535 215 C590 220 635 212 680 192 C635 245 580 262 520 258 C555 272 590 276 625 272 C580 300 515 300 470 280 Z"/>
+        </g>
+
+        <g class="wing left"  fill="url(#fg)"><path d="M440 150 C360 120 300 95 250 60 C290 120 330 150 380 170 C320 165 270 150 215 120 C255 180 305 205 365 215 C310 220 265 212 220 192 C265 245 320 262 380 258 C345 272 310 276 275 272 C320 300 385 300 430 280 Z"/></g>
+        <g class="wing right" fill="url(#fg)"><path d="M460 150 C540 120 600 95 650 60 C610 120 570 150 520 170 C580 165 630 150 685 120 C645 180 595 205 535 215 C590 220 635 212 680 192 C635 245 580 262 520 258 C555 272 590 276 625 272 C580 300 515 300 470 280 Z"/></g>
+      </svg>
+
+      <h1>Happy Birthday<br /><em>Malaghe</em></h1>
+    </div>
+
+    <p class="sub">Your day came and went &mdash; and I missed it.</p>
+
+    <div class="actions">
+      <button id="openLetter" class="primary">Read my apology</button>
+      <a href="#wishes" class="ghost">See your wishes ↓</a>
+    </div>
+
+    <p class="scrollhint" aria-hidden="true">✦</p>
+  </header>
+
+  <!-- ============ APOLOGY LETTER ============ -->
+  <section id="letter" class="letter reveal">
+    <h2>I'm <em>sorry</em> I was late</h2>
+
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the letter">
+      <div class="flap"></div>
+      <div class="pocket"></div>
+      <div class="seal">M</div>
+      <span class="tap">tap to open</span>
+    </div>
+
+    <article class="paper" id="paper" hidden>
+      <!-- ✍️ EDIT THIS LETTER ------------------------------------------- -->
+      <p class="hand">Dear Angel,</p>
+      <p>I missed your birthday, and you should have a reason rather than an excuse.
+         I was stuck in Hyderabad with work, I had an accident the day after your
+         birthday, and my dad's health went down not long after that.</p>
+      <p>That's the reason. It isn't an excuse &mdash; you should have heard from me
+         on the day itself.</p>
+      <p>So, late: Happy birthday, Malaghe. Your name did half the work on this page;
+         appo pani koodudhal idukandi vanilya theme thanethan set ayi. It suits you anyway &mdash; you're the
+         one who notices when someone's gone quiet.Just like malagha's do !</p>
+      <p>Hope this year is a good one to you.</p>
+      <p class="hand sign">&mdash; Dino</p>
+      <!-- --------------------------------------------------------------- -->
+    </article>
+
+  </section>
+
+  <!-- ============ BOUQUET ============ -->
+  <section class="bouquet-sec reveal">
+    <p class="chip">and these, late as well</p>
+
+    <canvas id="bouquet3d" hidden aria-label="A bouquet of red and white roses"></canvas>
+    <p class="turnhint">drag to turn them</p>
+  </section>
+
+  <!-- ============ SCRIPTURE ============ -->
+  <section class="verse reveal">
+    <span class="rule" aria-hidden="true"></span>
+    <blockquote>
+      <p>&ldquo;For he will command his angels concerning you<br />
+         to guard you in all your ways;<br />
+         they will lift you up in their hands,<br />
+         so that you will not strike your foot against a stone.&rdquo;</p>
+      <cite>Psalm 91:11&ndash;12</cite>
+    </blockquote>
+    <p class="lede verse-note">I missed your goodbye too &mdash; you were gone before I
+       said it properly(Mmalod parayand chaadiya gedi). So this is the part I mean most. A new country, a long way
+       from home.</p>
+    <p class="guarded">Wherever you go this year, you go guarded.</p>
+    <span class="rule" aria-hidden="true"></span>
+  </section>
+
+  <!-- ============ WISHES ============ -->
+  <section id="wishes" class="wishes reveal">
+    <p class="chip">sent from above</p>
+    <h2>Seven <em>wishes</em> for your year</h2>
+    <p class="lede">One for every angel I had to bribe to deliver this late.</p>
+
+    <div class="cards">
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12.5c3.6.4 6.4-1 8.3-3.6C12.6 6.6 15 5.2 17.6 5.8c1.8.4 3 1.9 2.9 3.6 0 .8-.4 1.5-1 2"/><path d="M19.5 9.4c-.6 4.4-4 7.9-8.4 8.6-2.7.4-5.3-.4-7.1-2.2"/><path d="M11 18.2V21"/></svg></span><h3>Peace</h3><p>A mind that stays quiet even when the world doesn't.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2 5.8 5.8 2-5.8 2-2 5.8-2-5.8-5.8-2 5.8-2z"/></svg></span><h3>Wonder</h3><p>Something this year that makes you go quiet and just stare.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.3s-7.3-4.4-7.3-9.4a4.1 4.1 0 017.3-2.6 4.1 4.1 0 017.3 2.6c0 5-7.3 9.4-7.3 9.4z"/></svg></span><h3>Love</h3><p>The patient kind, that shows up without being asked.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.9l7.2 3.1v5.6c0 4.4-3.1 7.8-7.2 8.7-4.1-.9-7.2-4.3-7.2-8.7V6z"/></svg></span><h3>Safety</h3><p>Every road home, short and uneventful.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.4 4.6c.3 6.3-4.4 11.1-10.7 11.1H5.1S4.6 8.9 11 6.2c2.9-1.2 6.3-1.9 8.4-1.6z"/><path d="M14.8 9.2L4.8 19.2"/></svg></span><h3>Lightness</h3><p>Fewer things to carry, and better people to carry them with.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.6A8.6 8.6 0 019.4 3.6a8.6 8.6 0 1011 11z"/></svg></span><h3>Rest</h3><p>Sleep that actually repairs you. No 3am thinking.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.9c2.6 3.1 4.1 5.2 4.1 7.2a4.1 4.1 0 11-8.2 0c0-2 1.5-4.1 4.1-7.2z"/><path d="M8.2 21h7.6"/></svg></span><h3>And next year</h3><p>A wish that arrives on time. I promise. Probably.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ MEMORIES (auto-hides if the folder is empty) ============ -->
+  <section id="memories" class="memories reveal" hidden>
+    <p class="chip">memory lane</p>
+    <h2>Moments <em>worth keeping</em></h2>
+    <p class="lede">They go past on their own. Touch one to hold it still.</p>
+
+    <div class="ribbon" id="ribbon">
+      <div class="lane" data-dir="fwd"><div class="run"></div></div>
+      <div class="lane" data-dir="rev"><div class="run"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ CANDLE ============ -->
+  <section class="candle-sec reveal">
+    <p class="chip">one thing left</p>
+    <h2>Make a <em>wish</em></h2>
+    <p class="lede">Blow it out &mdash; really blow, if you let the mic listen.
+       (Or just click it &mdash; the angels aren't picky.)</p>
+
+    <canvas id="cake3d" hidden aria-label="A birthday cake with one lit candle"></canvas>
+
+    <div class="cake" id="cake" role="button" tabindex="0" aria-label="Blow out the candle">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="flame" id="flame"></div>
+      <div class="wick"></div>
+      <div class="candle"></div>
+      <div class="tier top"></div>
+      <div class="tier bottom"></div>
+    </div>
+    <button class="miclisten" id="micListen" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/>
+      </svg>
+      let the mic listen
+    </button>
+    <p class="micstate" id="micState" hidden></p>
+    <p class="wished" id="wished" hidden>Wish received. Consider it on its way.</p>
+
+  </section>
+
+  <!-- ============ LIVE COUNTER ============ -->
+  <section class="alive reveal" id="alive" hidden>
+    <p class="chip">since the very beginning</p>
+    <h2>You&rsquo;ve been here for</h2>
+    <div class="odometer" id="odometer">
+      <div><b id="aDays">0</b><span>days</span></div>
+      <div><b id="aHours">0</b><span>hours</span></div>
+      <div><b id="aMins">0</b><span>minutes</span></div>
+      <div><b id="aSecs">0</b><span>seconds</span></div>
+    </div>
+    <p class="lede">and the world has been a kinder place for every one of them.</p>
+  </section>
+
+  <!-- ============ CLOSING ============ -->
+  <footer class="closing reveal">
+    <div class="glass">
+      <p class="hand big">Happy belated birthday, Malaghe.</p>
+      <p>You were already named Angel. I just did what I could with that.</p>
+    </div>
+    <p class="made">made with <svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.3s-7.3-4.4-7.3-9.4a4.1 4.1 0 017.3-2.6 4.1 4.1 0 017.3 2.6c0 5-7.3 9.4-7.3 9.4z"/></svg> &amp; a guilty conscience</p>
+
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photograph">
+    <button class="lb-x" id="lbClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <button class="lb-arrow lb-prev" id="lbPrev" type="button" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5L8 12l6.5 7"/></svg>
+    </button>
+    <figure class="lb-frame" id="lbFrame">
+      <div class="lb-media" id="lbMedia"></div>
+      <figcaption class="lb-cap" id="lbCap"></figcaption>
+    </figure>
+    <p class="lb-counter" id="lbCount"></p>
+    <button class="lb-arrow lb-next" id="lbNext" type="button" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5L16 12l-6.5 7"/></svg>
+    </button>
+  </div>
+
+  <div class="secret" id="secret" hidden>
+    <div class="secret-card">
+      <p class="chip">you found it</p>
+      <p class="hand big">Okay, you actually typed it.</p>
+      <p>Which means you read far enough to go looking. That's very you &mdash;
+         you always did check the corners of things.</p>
+      <p>Happy birthday again, properly this time.</p>
+      <button class="ghost" id="secretClose" type="button">close</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" defer></script>
+  <script src="script.js"></script>
+  <script src="extras.js" defer></script>
+  <script type="module" src="cake3d.js"></script>
+  <script type="module" src="bouquet3d.js"></script>
+</body>
+</html>

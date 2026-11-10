@@ -1,0 +1,170 @@
+/* ===========================================================
+   Malagha — art direction layer
+   Dark, gold-leaf, and a deep violet running underneath.
+   Loaded AFTER style.css; overrides the theme.
+   Retheme from :root below — everything else follows.
+   =========================================================== */
+
+/* ---------- 1. palette ---------- */
+:root {
+  --night:  #08070e;   /* near-black, violet cast */
+  --deep:   #150f28;   /* deep plum ink */
+  --plum:   #2a1b43;   /* panel / recess violet */
+  --orchid: #8f6fcb;   /* the lit violet */
+  --text:   #ece6da;   /* alabaster */
+  --muted:  #9a93ab;   /* mauve grey */
+  --gold:   #e3c389;   /* gold leaf */
+  --gold-2: #b9914e;   /* gold, shadowed */
+  --halo:   #f7ead0;
+  --violet: #6b4a9e;   /* feeds the inherited backdrop blobs */
+  --blush:  #8f6fcb;
+  --cloud:  rgba(255,255,255,.045);
+  --line:   rgba(227,195,137,.20);
+  --frame:  rgba(227,195,137,.34);
+  --vline:  rgba(143,111,203,.30);
+}
+
+/* ---------- 2. the room ---------- */
+html { overflow-x: hidden; background: var(--night); }
+body {
+  overflow-x: hidden; max-width: 100vw; letter-spacing: .005em;
+  background:
+    radial-gradient(112% 68% at 50% -16%, #2a1d4c 0%, #170f2b 34%, #0e0a1a 66%, var(--night) 100%);
+}
+body::before {                 /* procedural marble/stone veining, no asset */
+  content: ""; position: fixed; inset: 0; z-index: -3; pointer-events: none;
+  opacity: .5; mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.009 0.028' numOctaves='5' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-size: 700px 700px;
+}
+.heaven i { filter: blur(130px); opacity: .15 !important; }
+.rays { opacity: .5; }
+.hero, section, footer { max-width: 100vw; }
+
+/* ---------- 3. typography ---------- */
+.chip {
+  font-size: .68rem; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500;
+  background: none !important; backdrop-filter: none !important;
+  border: 0; border-radius: 0 !important;
+  border-top: 1px solid var(--vline); border-bottom: 1px solid var(--vline);
+  padding: .5rem 0 !important; display: inline-block;
+}
+h2 { font-family: "Cormorant Garamond", serif; font-weight: 600; }
+.lede { color: var(--muted); }
+.hand { color: var(--gold); }
+
+/* gold leaf, with a violet tail. Paint solid first: if background-clip:text
+   is unsupported, transparent text would vanish outright. */
+em { color: var(--gold); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  em {
+    background: linear-gradient(100deg, var(--halo) 0%, var(--gold) 56%, #c6a6ea 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+}
+
+/* ---------- 4. hero ---------- */
+.wings {
+  opacity: .55;
+  width: min(120vw, 960px);
+  transform: translate(-50%, -70%);
+  filter: drop-shadow(0 0 46px rgba(143,111,203,.40))
+          drop-shadow(0 0 14px rgba(227,195,137,.14));
+}
+.halo {                                   /* the nimbus, struck in gold leaf */
+  z-index: 2;
+  width: clamp(130px, 28vw, 215px) !important;
+  border-width: 2px; border-color: rgba(227,195,137,.82);
+  opacity: .85;
+}
+.hero h1 { font-weight: 300; letter-spacing: .02em;
+           text-shadow: 0 2px 26px rgba(8,7,14,.85), 0 0 70px rgba(143,111,203,.30); }
+.hero .sub { color: var(--muted); letter-spacing: .04em; }
+.scrollhint { color: var(--gold); opacity: .55; }
+
+/* ---------- 5. buttons & rules ---------- */
+button.primary {
+  background: linear-gradient(180deg, var(--gold), var(--gold-2));
+  color: #1a1407; border: 0; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; font-size: .78rem;
+  box-shadow: 0 10px 30px rgba(107,74,158,.35);
+}
+.ghost {
+  border: 1px solid var(--vline); color: var(--gold);
+  letter-spacing: .12em; text-transform: uppercase; font-size: .72rem;
+}
+.ghost:hover { border-color: var(--gold); background: rgba(143,111,203,.12); }
+.verse .rule {
+  background: linear-gradient(90deg, transparent, var(--vline) 30%, var(--frame) 50%, var(--vline) 70%, transparent);
+}
+
+/* ---------- 6. the letter ---------- */
+.envelope .pocket { background: linear-gradient(160deg, #e7e0d1, #c9c0b4); }
+.envelope .flap   { background: linear-gradient(170deg, #f0e9dc, #d5ccc2); }
+.envelope .seal {                         /* cherub emoji -> wax monogram */
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, var(--gold), var(--gold-2) 70%);
+  color: #1a1407; font-family: "Cormorant Garamond", serif;
+  font-size: 1.15rem; font-weight: 600;
+  box-shadow: 0 0 22px rgba(227,195,137,.42), inset 0 1px 2px rgba(255,255,255,.45);
+}
+.envelope .tap { color: var(--muted); letter-spacing: .2em; text-transform: uppercase; font-size: .6rem; }
+
+/* the paper is parchment now, so the ink must darken too
+   (style.css paints .paper p light violet for the old glass panel) */
+.paper { background: linear-gradient(170deg, #f3ece0, #e4dac9);
+         border: 1px solid rgba(106,78,150,.28); backdrop-filter: none;
+         box-shadow: 0 30px 70px rgba(0,0,0,.55); }
+.paper p { color: #2b2419; }
+.paper .hand, .paper .sign { color: #6b4e8c; }
+
+/* ---------- 7. wish cards ---------- */
+.cards { gap: 1rem; }
+.card {
+  background: linear-gradient(170deg, rgba(143,111,203,.10), rgba(255,255,255,.018));
+  border: 1px solid var(--vline); border-radius: 2px;
+  transition: border-color .4s ease, transform .4s ease, background .4s ease;
+}
+.card:hover {
+  border-color: var(--gold); transform: translateY(-4px);
+  background: linear-gradient(170deg, rgba(227,195,137,.11), rgba(143,111,203,.08));
+}
+.card h3 { font-family: "Cormorant Garamond", serif; font-weight: 600;
+           letter-spacing: .06em; color: var(--text); }
+.card .ico {                              /* emoji slot -> engraved glyph */
+  display: grid; place-items: center;
+  width: 50px; height: 50px; margin: 0 auto .7rem;
+  border: 1px solid var(--vline); border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, rgba(143,111,203,.26), transparent 72%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+.card .ico svg { width: 25px; height: 25px; display: block; }
+.card .ico svg * { stroke: var(--gold); stroke-opacity: .92; }
+.card:hover .ico { border-color: var(--gold); }
+.card:hover .ico svg * { stroke: var(--halo); }
+
+/* ---------- 8. candle ---------- */
+.tier.top    { background: linear-gradient(#efe9dc, #cdc3d2); }
+.tier.bottom { background: linear-gradient(#ebe4d5, #c4bacd); }
+.tier::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 34%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(227,195,137,.75), transparent);
+}
+.candle { background: repeating-linear-gradient(45deg, #f5f0e5 0 6px, #e3c389 6px 12px); }
+.wished { color: var(--gold); letter-spacing: .04em; }
+
+/* ---------- 9. closing & bits ---------- */
+.glass { background: rgba(143,111,203,.07); border: 1px solid var(--vline); border-radius: 2px; }
+.made { color: var(--muted); letter-spacing: .2em; text-transform: uppercase; font-size: .62rem; }
+.made svg { width: 12px; height: 12px; vertical-align: -2px; }
+.made svg * { stroke: var(--gold); }
+
+/* drifting marks are SVG now, so they take colour rather than a font glyph */
+.feather { color: rgba(236,226,250,.85); }
+.feather svg { filter: drop-shadow(0 0 6px rgba(143,111,203,.55)); }
+
+@media (max-width: 700px) {
+  .hero h1 { font-size: clamp(2.1rem, 9vw, 3rem); }
+  .wings { width: 150vw; opacity: .45; transform: translate(-50%, -74%); }
+}

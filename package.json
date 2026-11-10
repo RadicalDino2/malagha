@@ -1,0 +1,7 @@
+{
+  "name": "malagha-birthday",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A belated birthday wish, themed around angels.",
+  "scripts": { "build": "node generate-media.js" }
+}
