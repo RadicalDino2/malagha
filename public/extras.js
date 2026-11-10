@@ -1,7 +1,7 @@
 /* ===========================================================
    Malagha — extras
    Intro, cursor, magnetics, tilt, confetti, counter,
-   ambient music, mic-blow, easter egg, drifting photographs.
+   music, mic-blow, easter egg, drifting photographs.
    =========================================================== */
 
 /* ---------- EDIT ME -------------------------------------------------------
@@ -12,6 +12,8 @@
 const CONFIG = {
   birthDate: null,
   nickname: "malagha",
+  music: "audio/music.mp3",   // drop a file at public/audio/music.mp3
+  musicVolume: 0.55,          // 0 to 1
 };
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -183,16 +185,21 @@ window.__wishReceived = function () {
   })();
 })();
 
-/* ---------------- 8. ambient music (synthesised, no audio file) ---------------- */
+/* ---------------- 8. music ----------------
+   Plays CONFIG.music if that file is there, and falls back to a pad
+   synthesised on the spot if it isn't -- so the page works with an
+   empty audio folder and starts using a real track the moment one
+   is dropped in.                                                    */
 (function music() {
   const btn = $("audioToggle");
   if (!btn) return;
   let ctx = null, master = null, voices = [], bell = null, on = false;
+  let audio = null, useFile = !!CONFIG.music;
 
   const CHORD = [110, 164.81, 220, 329.63];          // A2 E3 A3 E4
   const BELLS = [440, 493.88, 554.37, 659.25, 739.99];
 
-  function start() {
+  function startSynth() {
     ctx = new (window.AudioContext || window.webkitAudioContext)();
     master = ctx.createGain();
     master.gain.setValueAtTime(0, ctx.currentTime);
@@ -232,7 +239,7 @@ window.__wishReceived = function () {
     bell = setTimeout(ring, 2500);
   }
 
-  function stop() {
+  function stopSynth() {
     clearTimeout(bell);
     if (!ctx) return;
     master.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.1);
@@ -241,11 +248,59 @@ window.__wishReceived = function () {
     ctx = null; voices = [];
   }
 
-  btn.addEventListener("click", () => {
-    on = !on;
+  /* ---- a real file, if there is one ---- */
+  function ramp(el, to, ms, then) {
+    const from = el.volume, t0 = performance.now();
+    clearInterval(el.__ramp);
+    el.__ramp = setInterval(() => {
+      const k = Math.min(1, (performance.now() - t0) / ms);
+      el.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      if (k === 1) { clearInterval(el.__ramp); then && then(); }
+    }, 40);
+  }
+
+  function toSynth() {
+    if (!useFile) return;
+    useFile = false;
+    console.warn("No music file at " + CONFIG.music + " - using the synthesised pad.");
+    if (audio) { try { audio.pause(); } catch {} audio = null; }
+    if (on) startSynth();
+  }
+
+  function startFile() {
+    if (!audio) {
+      audio = new Audio(CONFIG.music);
+      audio.loop = false;              /* plays once, it isn't a loop */
+      audio.preload = "none";
+      audio.addEventListener("error", toSynth, { once: true });
+      /* when it finishes, put the button back so it doesn't sit there
+         glowing as though something were still playing */
+      audio.addEventListener("ended", () => {
+        clearInterval(audio.__ramp);
+        audio.currentTime = 0;
+        setState(false);
+      });
+    }
+    audio.volume = 0;
+    const p = audio.play();
+    if (p && p.catch) p.then(() => ramp(audio, CONFIG.musicVolume, 900)).catch(toSynth);
+    else ramp(audio, CONFIG.musicVolume, 900);
+  }
+
+  function stopFile() {
+    if (audio) ramp(audio, 0, 900, () => { try { audio.pause(); } catch {} });
+  }
+
+  function setState(playing) {
+    on = playing;
     btn.setAttribute("aria-pressed", String(on));
     btn.setAttribute("aria-label", on ? "Pause music" : "Play music");
-    on ? start() : stop();
+  }
+
+  btn.addEventListener("click", () => {
+    setState(!on);
+    if (on) useFile ? startFile() : startSynth();
+    else useFile ? stopFile() : stopSynth();
   });
 })();
 

@@ -33,7 +33,7 @@ python3 -m http.server 5173 --directory public
 | Tilting cards | `extras.js` §5 | vanilla-tilt on the seven wishes. |
 | Confetti | `extras.js` §6 | on the name reveal, on blow-out, on pinning a wish. |
 | Live counter | `extras.js` §7 | **off until you set `CONFIG.birthDate`** — see below. |
-| Ambient music | `extras.js` §8 | synthesised in the Web Audio API, no audio file. Toggle, bottom right. Starts on click (browsers block autoplay). |
+| Music | `extras.js` §8 | plays `public/audio/music.mp3` once if it's there, otherwise a pad it synthesises itself. Toggle, bottom right. Starts on click (browsers block autoplay). |
 | Blow into the mic | `extras.js` §9 | asks permission, listens for a loud bottom-heavy burst. Clicking still works. |
 | Easter egg | `extras.js` §10 | type her nickname anywhere. |
 | Drifting photos | `extras.js` §11 | two lanes, opposite directions, ~33 px/s. Hover or focus a lane and it holds still. |
@@ -70,6 +70,33 @@ wings, the seven wish glyphs and the drifting feathers.
 Retheming is mostly `:root` at the top of `art.css`:
 `--gold` / `--gold-2` (leaf), `--orchid` / `--violet` / `--plum` (the purple),
 `--night` / `--deep` (ground), `--vline` (violet hairlines).
+
+## The music
+
+Put your track here:
+
+```
+public/audio/music.mp3
+```
+
+That's the whole job — the page finds it and fades it in when the
+speaker button is pressed. It plays **once**, not on a loop, and the
+button returns to its off state when the track finishes. `.m4a`, `.ogg` and `.wav` work
+too; if you use a different name or extension, change `CONFIG.music` at
+the top of `public/extras.js` to match. `CONFIG.musicVolume` next to it
+sets the level, 0 to 1 (it's at 0.55).
+
+With the folder empty the page falls back to the pad it synthesises
+itself and logs one line to the console, so nothing breaks in the
+meantime.
+
+A note in the hero asks her to go through the page before turning it
+on. Edit it in `public/index.html`, the `<p class="musicnote">` under
+the subtitle.
+
+**Pick something you have the right to use.** A commercial track on a
+public URL is someone else's copyright, even on a page only one person
+is meant to see.
 
 ## Adding photos / videos
 

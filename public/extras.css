@@ -340,3 +340,16 @@ body.cake-3d .cake { display: none; }
 }
 @media (pointer: coarse) { .turnhint::before { content: "swipe or "; } }
 @media (prefers-reduced-motion: reduce) { .turnhint { display: none; } }
+
+/* a word before they reach for the speaker button */
+.musicnote {
+  margin: .9rem auto 0; max-width: 34ch;
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); opacity: .78; line-height: 1.9;
+}
+.musicnote em {
+  font-style: normal; color: var(--gold);
+  -webkit-text-fill-color: var(--gold);   /* the page paints <em> with a
+                                             gradient; not wanted here */
+  background: none;
+}
